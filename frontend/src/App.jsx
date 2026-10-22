@@ -55,7 +55,7 @@ function App() {
           <div className="flex items-center gap-3">
             <Logomark className="w-9 h-5 text-blueprint" />
             <div>
-              <h1 className="font-sans font-semibold text-lg leading-none text-ink">CompileViz</h1>
+             <h1 className="font-sans font-semibold text-lg leading-none text-ink">CompileFlow</h1>
               <p className="text-xs text-ink-faint mt-1">
                 Regex to automata, grammars, and a working toy compiler, all live
               </p>
