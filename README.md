@@ -1,91 +1,88 @@
-# CompileViz
+# CompileFlow
 
-**Live demo:** https://compile-viz.vercel.app
-**Backend API docs:** https://compileviz.onrender.com/docs
+**CompileFlow** is an interactive web platform for exploring compiler design concepts through visualizations and hands-on tools.
 
-An interactive web platform for visualizing compiler construction
-concepts: a regex-to-automata playground (direct followpos method vs.
-indirect Thompson + subset construction), a grammar analysis tool
-(FIRST/FOLLOW, LL(1)), DFA minimization, and a full six-phase toy-
-language compiler with a live visualization dashboard, all the way
-from source code to an actual running program.
-
-Built for BCSE307P (Compiler Design Lab), VIT Vellore.
-
-> The backend is hosted on Render's free tier, which spins down after
-> 15 minutes of inactivity. If the demo link seems slow to respond the
-> first time, that's the server waking up (30-60 seconds), not a bug,
-> give it a moment and it'll be fast from then on.
-
-## Project status
-
-Every milestone on `docs/ROADMAP.md` is done, all four tools below are
-live and working end to end.
-
-Currently in progress on `feature/interactive-steps`: a **Teach me**
-mode for each tool. Every tool keeps its existing instant-answer view
-and gains a toggle that walks the same algorithm one step at a time,
-with a plain-English explanation of which textbook rule fired at each
-step and an optional quiz that asks you to predict the next one. See
-`docs/ROADMAP.md` for what is covered so far.
-
-## Screenshots
+## Features
 
 ### Regex-to-Automata Playground
-Direct-method and indirect-method DFA construction, side by side, with
-a state-count and build-time comparison. **Teach me** walks either
-method: position numbering, the nullable/firstpos/lastpos table and
-each followpos rule for the direct method; Thompson fragments and the
-move / eps-closure split for the indirect one.
-
-![Regex Playground](docs/screenshots/regex-playground.png)
+- Explore direct DFA construction using the followpos method.
+- Compare it with Thompson's construction and subset construction.
+- View state counts and construction-time comparisons.
 
 ### Grammar Analysis Tool
-FIRST/FOLLOW sets and the LL(1) parsing table for a user-supplied
-grammar, with conflicts highlighted directly in the table.
-
-![Grammar Tool](docs/screenshots/grammar-tool.png)
+- Calculate FIRST and FOLLOW sets.
+- Generate LL(1) parsing tables.
+- Identify conflicts in grammar analysis.
 
 ### DFA Minimizer
-Partition refinement, with the original and minimized automata shown
-side by side.
-
-![DFA Minimizer](docs/screenshots/dfa-minimizer.png)
+- Visualize DFA minimization using partition refinement.
+- Compare original and minimized automata.
 
 ### Compiler Pipeline
-All six classical phases, lexing, parsing, semantic analysis,
-intermediate code, optimization, and code generation, live from one
-Monaco editor, with inline error highlighting and a preset library.
+- Explore six compiler phases: lexical analysis, parsing, semantic analysis, intermediate code generation, optimization, and code generation.
+- Use the Monaco editor, code presets, and inline error highlighting.
+- Inspect compilation results through the pipeline dashboard.
 
-![Compiler Pipeline](docs/screenshots/compiler-pipeline-top.png)
-![Compiler Pipeline output](docs/screenshots/compiler-pipeline-output.png)
+## Technology Stack
 
-## Repo structure
+- **Frontend:** React, Vite, Tailwind CSS, Monaco Editor
+- **Backend:** Python, FastAPI
+- **Testing:** Pytest
 
+## Project Structure
+
+```text
+backend/    FastAPI backend, automata engines, grammar tools,
+            and compiler pipeline
+frontend/   React frontend and interactive tools
+docs/       Architecture notes, roadmap, deployment guide,
+            and screenshots
 ```
-backend/    FastAPI + Python: automata engines, grammar tools, and the
-            toy-language compiler pipeline
-frontend/   React (Vite) + Tailwind + Monaco: the dashboard and
-            playground UI
-docs/       Architecture notes, roadmap, deployment guide, screenshots
-```
 
-## Running locally
+## Getting Started
 
-### Backend
+### Prerequisites
+
+- Python 3.12 recommended
+- Node.js and npm
+
+### Backend Setup
+
+From the repository root:
 
 ```bash
 cd backend
 python -m venv .venv
-source .venv/bin/activate      # on Windows: .venv\Scripts\activate
+```
+
+Activate the environment.
+
+**Windows PowerShell:**
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+**macOS/Linux:**
+
+```bash
+source .venv/bin/activate
+```
+
+Install dependencies and start the backend:
+
+```bash
 pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
-The API runs at `http://localhost:8000`, with interactive docs at
-`http://localhost:8000/docs`.
+Backend API: `http://localhost:8000`
 
-### Frontend
+API documentation: `http://localhost:8000/docs`
+
+### Frontend Setup
+
+Open a second terminal from the repository root:
 
 ```bash
 cd frontend
@@ -93,30 +90,27 @@ npm install
 npm run dev
 ```
 
-The app runs at `http://localhost:5173` and shows the backend
-connection status in the footer.
+Open `http://localhost:5173` in your browser.
 
-### Running tests
+The frontend uses `VITE_API_BASE_URL` to configure the backend URL. If it is not set, the API client defaults to `http://localhost:8000`.
+
+## Running Tests
 
 ```bash
 cd backend
 pytest -v
 ```
 
-CI runs this automatically on every pull request into `main`.
+## Screenshots
 
-## Deployment
+Application screenshots are available in [`docs/screenshots/`](docs/screenshots/).
 
-The live demo above is hosted on Render (backend) and Vercel
-(frontend). See `docs/DEPLOYMENT.md` for the full setup guide if
-you're deploying your own copy.
+## Development
 
-## Contributing workflow
+CompileFlow is maintained by **Yashashwi Jain and Nitin Giri**.
 
-Every feature is built on its own branch and merged into `main`
-through a pull request. See `docs/CONTRIBUTING.md` for the exact
-convention.
+Development work should be done on separate branches and submitted through pull requests for review before merging into `main`.
 
 ## License
 
-MIT, see `LICENSE`.
+See [LICENSE](LICENSE) for the applicable license terms.
