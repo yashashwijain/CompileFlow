@@ -1,0 +1,53 @@
+import apiClient, { extractErrorMessage } from "./client";
+
+// Thin wrappers around the Milestone 4 backend routes (app/api/regex_routes.py).
+// Each one returns response.data directly and lets errors (including the
+// backend's 400 for an invalid regex) propagate to the caller, so the page
+// component decides how to display them.
+
+export async function buildDirectDfa(pattern) {
+  const { data } = await apiClient.post("/api/regex/direct", { pattern });
+  return data;
+}
+
+export async function buildIndirectDfa(pattern) {
+  const { data } = await apiClient.post("/api/regex/indirect", { pattern });
+  return data;
+}
+
+export async function buildThompsonNfa(pattern) {
+  const { data } = await apiClient.post("/api/regex/thompson", { pattern });
+  return data;
+}
+
+export async function matchPattern(pattern, text, method = "direct") {
+  const { data } = await apiClient.post("/api/regex/match", {
+    pattern,
+    text,
+    method,
+  });
+  return data;
+}
+
+// The teaching counterpart to buildDirectDfa: the same construction, but
+// with every intermediate step (position numbering, the firstpos/lastpos
+// table, each followpos rule, the transition table cell by cell) plus the
+// annotated syntax tree, which no other endpoint returns.
+export async function fetchRegexSteps(pattern, method = "direct") {
+  const { data } = await apiClient.post("/api/regex/steps", { pattern, method });
+  return data;
+}
+
+export async function compareMethods(pattern, runs = 10) {
+  const { data } = await apiClient.post("/api/regex/compare", {
+    pattern,
+    runs,
+  });
+  return data;
+}
+
+// Re-exported so existing imports of extractErrorMessage from this file
+// (from Milestone 4's RegexPlayground.jsx) keep working unchanged, now
+// that the actual implementation lives in client.js and is shared with
+// grammarApi.js and any future feature's API module.
+export { extractErrorMessage };
